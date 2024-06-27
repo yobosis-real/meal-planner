@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recipe Suggester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+        .recipe {
+            margin-bottom: 30px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .recipe h2 {
+            margin-bottom: 5px;
+        }
+        .recipe p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Recipe Suggester</h1>
+    <form method="POST">
+        <label for="ingredients">Enter your leftover ingredients (comma-separated):</label><br>
+        <input type="text" id="ingredients" name="ingredients" required><br><br>
+        <button type="submit">Find Recipes</button>
+    </form>
+
+    {% if recipes %}
+        <h2>Recipes you can make:</h2>
+        {% for recipe in recipes %}
+            <div class="recipe">
+                <h2>{{ recipe.name }}</h2>
+                <p><strong>Ingredients:</strong> {{ recipe.ingredients | join(", ") }}</p>
+                <p><strong>Instructions:</strong><br>{{ recipe.instructions }}</p>
+                <p><strong>Nutritional Information:</strong></p>
+                <ul>
+                    <li>Calories: {{ recipe.nutrition.calories }}</li>
+                    <li>Protein: {{ recipe.nutrition.protein }}g</li>
+                    <li>Fat: {{ recipe.nutrition.fat }}g</li>
+                    <li>Carbs: {{ recipe.nutrition.carbs }}g</li>
+                </ul>
+            </div>
+        {% endfor %}
+    {% elif ingredients %}
+        <p>No recipes match all your ingredients. You can try adding more ingredients.</p>
+    {% endif %}
+</body>
+</html>
